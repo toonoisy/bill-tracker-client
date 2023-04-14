@@ -65,6 +65,7 @@ const Login = () => {
       .then((res) => {
         Toast.show(res?.msg);
         localStorage.setItem("token", res?.data?.token);
+        window.location.href = '/';
       });
   };
 
