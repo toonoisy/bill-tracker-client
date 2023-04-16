@@ -19,7 +19,7 @@ function App() {
   }, [pathname]);
 
   useEffect(() => {
-    dispatch(getCategoryList());
+    localStorage.getItem("token") && dispatch(getCategoryList());
   }, []);
 
   return (
