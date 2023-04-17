@@ -18,7 +18,7 @@ export const uploadAvatar = createAsyncThunk("user/uploadAvatar", async (file) =
 });
 
 const initialState = {
-  isAuth: false,
+  isAuth: Boolean(localStorage.getItem('token')),
   userId: "",
   username: "",
   signature: "",
