@@ -8,69 +8,57 @@ import User from "@/views/User";
 import Login from "@/views/Login";
 import Detail from "@/views/Detail";
 
+const routes = [
+  {
+    path: "/",
+    component: Home,
+    authRedirect: "/login",
+  },
+  {
+    path: "/about",
+    component: About,
+    authRedirect: "/login",
+  },
+  {
+    path: "/stats",
+    component: Stats,
+    authRedirect: "/login",
+  },
+  {
+    path: "/user",
+    component: User,
+    authRedirect: "/login",
+  },
+  {
+    path: "/login",
+    component: Login,
+    authRedirect: "/",
+  },
+  {
+    path: "/detail",
+    component: Detail,
+    authRedirect: "/login",
+  },
+];
+
 const AppRoutes = ({ isAuthenticated }) => {
   return (
     <Routes>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={!isAuthenticated}
-            redirectRoute="/"
-          />
-        }
-      >
-        <Route path="/login" element={<Login />} />
-      </Route>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={isAuthenticated}
-            redirectRoute="/login"
-          />
-        }
-      >
-        <Route path="/" element={<Home />} />
-      </Route>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={isAuthenticated}
-            redirectRoute="/login"
-          />
-        }
-      >
-        <Route path="/stats" element={<Stats />} />
-      </Route>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={isAuthenticated}
-            redirectRoute="/login"
-          />
-        }
-      >
-        <Route path="/user" element={<User />} />
-      </Route>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={isAuthenticated}
-            redirectRoute="/login"
-          />
-        }
-      >
-        <Route path="/detail" element={<Detail />} />
-      </Route>
-      <Route
-        element={
-          <GuardedRoute
-            isRouteAccessible={isAuthenticated}
-            redirectRoute="/login"
-          />
-        }
-      >
-        <Route path="/about" element={<About />} />
-      </Route>
+      {routes.map((route) => (
+        <Route
+          key={route.path}
+          element={
+            <GuardedRoute
+              isRouteAccessible={
+                route.path === "/login" ? !isAuthenticated : isAuthenticated
+              }
+              redirectRoute={route.authRedirect}
+            />
+          }
+        >
+          <Route path={route.path} element={<route.component />} />
+        </Route>
+      ))}
     </Routes>
   );
 };
