@@ -6,6 +6,17 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
   return res?.data;
 });
 
+export const uploadAvatar = createAsyncThunk("user/uploadAvatar", async (file) => {
+  console.log(file);
+  const formData = new FormData();
+  formData.append("file", file.file);
+  const headers = {
+    "Content-Type": "multipart/form-data",
+  };
+  const res = await request.post("/api/upload", formData, { headers });
+  return res?.data;
+});
+
 const initialState = {
   isAuth: false,
   userId: "",
@@ -21,18 +32,25 @@ const userSlice = createSlice({
     setIsAuth(state, { payload }) {
       state.isAuth = payload;
     },
+    setSignature(state, { payload }) {
+      state.signature = payload;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
-      const { id, username, signature, avatar } = payload;
-      state.userId = id;
-      state.username = username;
-      state.signature = signature;
-      state.avatar = avatar;
-    });
+    builder
+      .addCase(getUserInfo.fulfilled, (state, { payload }) => {
+        const { id, username, signature, avatar } = payload;
+        state.userId = id;
+        state.username = username;
+        state.signature = signature;
+        state.avatar = avatar;
+      })
+      .addCase(uploadAvatar.fulfilled, (state, { payload }) => {
+        state.avatar = payload;
+      });
   },
 });
 
-export const { setIsAuth } = userSlice.actions;
+export const { setIsAuth, setSignature } = userSlice.actions;
 
 export default userSlice.reducer;

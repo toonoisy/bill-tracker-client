@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { Cell, Button } from "zarm";
 import { getUserInfo, setIsAuth } from "@/store/userSlice";
 import s from "./style.module.less";
 
 const User = () => {
+  const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const { username, signature, avatar } = useSelector((store) => store.user);
   useEffect(() => {
@@ -41,6 +43,7 @@ const User = () => {
         <Cell
           hasArrow
           title="用户信息修改"
+          onClick={() => navigateTo('/userinfo')}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}

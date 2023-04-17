@@ -1,12 +1,9 @@
 import axios from "axios";
 import { Toast } from "zarm";
-
-const ENV = import.meta.env.MODE;
-// const baseURL = "http://127.0.0.1:7001";
-const baseURL = "http://api.chennick.wang";
+import { baseURL } from "@/config";
 
 const instance = axios.create({
-  baseURL: ENV == "development" ? "/" : baseURL,
+  baseURL,
   timeout: 30 * 1000,
   headers: {
     "X-Requested-With": "XMLHttpRequest",

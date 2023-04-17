@@ -7,6 +7,7 @@ import Stats from "@/views/Stats";
 import User from "@/views/User";
 import Login from "@/views/Login";
 import Detail from "@/views/Detail";
+import UserInfo from "@/views/UserInfo";
 
 const routes = [
   {
@@ -37,6 +38,11 @@ const routes = [
   {
     path: "/detail",
     component: Detail,
+    authRedirect: "/login",
+  },
+  {
+    path: "/userinfo",
+    component: UserInfo,
     authRedirect: "/login",
   },
 ];

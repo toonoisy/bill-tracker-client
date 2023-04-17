@@ -43,6 +43,10 @@ export default defineConfig({
         changeOrigin: true,
         // rewrite: path => path.replace(/^\/api/, ''),
       },
+      "/public/upload": {
+        target: "http://127.0.0.1:7001",
+        changeOrigin: true,
+      },
     },
   },
 });

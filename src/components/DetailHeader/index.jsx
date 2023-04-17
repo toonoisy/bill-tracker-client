@@ -16,7 +16,7 @@ const DetailHeader = ({ title }) => {
             <Icon
               type="arrow-left"
               theme="primary"
-              onClick={() => navigateTo('/')}
+              onClick={() => navigateTo(-1)}
             />
           }
           title={title}
