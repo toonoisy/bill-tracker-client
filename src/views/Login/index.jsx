@@ -1,4 +1,6 @@
 import React, { useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
+import { setIsAuth } from "@/store/userSlice";
 import { Cell, Input, Button, Checkbox, Toast } from "zarm";
 import CustomIcon from "@/components/CustomIcon";
 import Captcha from "react-captcha-code";
@@ -7,6 +9,7 @@ import s from "./style.module.less";
 import request from "@/utils/request";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -65,7 +68,7 @@ const Login = () => {
       .then((res) => {
         Toast.show(res?.msg);
         localStorage.setItem("token", res?.data?.token);
-        window.location.href = '/';
+        dispatch(setIsAuth(true));
       });
   };
 

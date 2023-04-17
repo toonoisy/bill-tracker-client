@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { Cell, Button } from "zarm";
-import { getUserInfo } from "@/store/userSlice";
+import { getUserInfo, setIsAuth } from "@/store/userSlice";
 import s from "./style.module.less";
 
 const User = () => {
-  const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const { username, signature, avatar } = useSelector((store) => store.user);
   useEffect(() => {
@@ -15,7 +13,7 @@ const User = () => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    navigateTo("/login");
+    dispatch(setIsAuth(false));
   };
 
   return (

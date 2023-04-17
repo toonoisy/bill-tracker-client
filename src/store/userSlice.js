@@ -7,7 +7,8 @@ export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
 });
 
 const initialState = {
-  userId: '',
+  isAuth: false,
+  userId: "",
   username: "",
   signature: "",
   avatar: "",
@@ -16,6 +17,11 @@ const initialState = {
 const userSlice = createSlice({
   name: "user",
   initialState,
+  reducers: {
+    setIsAuth(state, { payload }) {
+      state.isAuth = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
       const { id, username, signature, avatar } = payload;
@@ -26,5 +32,7 @@ const userSlice = createSlice({
     });
   },
 });
+
+export const { setIsAuth } = userSlice.actions;
 
 export default userSlice.reducer;
