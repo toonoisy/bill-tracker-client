@@ -10,9 +10,10 @@ import s from "./style.module.less";
 const UserInfo = () => {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { avatar, signature } = useSelector((store) => store.user);
+  const { avatar, signature, userId } = useSelector((store) => store.user);
 
   useEffect(() => {
+    if (userId) return;
     dispatch(getUserInfo());
   }, []);
 
@@ -66,7 +67,12 @@ const UserInfo = () => {
             />
           </div>
         </div>
-        <Button onClick={saveUserInfo} style={{ marginTop: 50 }} block theme="primary">
+        <Button
+          onClick={saveUserInfo}
+          style={{ marginTop: 50 }}
+          block
+          theme="primary"
+        >
           保存
         </Button>
       </div>

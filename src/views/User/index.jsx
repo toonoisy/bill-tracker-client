@@ -8,8 +8,11 @@ import s from "./style.module.less";
 const User = () => {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
-  const { username, signature, avatar } = useSelector((store) => store.user);
+  const { username, signature, avatar, userId } = useSelector(
+    (store) => store.user
+  );
   useEffect(() => {
+    if (userId) return;
     dispatch(getUserInfo());
   }, []);
 
@@ -43,7 +46,7 @@ const User = () => {
         <Cell
           hasArrow
           title="用户信息修改"
-          onClick={() => navigateTo('/userinfo')}
+          onClick={() => navigateTo("/userinfo")}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}
@@ -55,7 +58,7 @@ const User = () => {
         <Cell
           hasArrow
           title="重置密码"
-          onClick={() => navigateTo('/account')}
+          onClick={() => navigateTo("/account")}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}
@@ -67,7 +70,7 @@ const User = () => {
         <Cell
           hasArrow
           title="关于 BillTracker"
-          onClick={() => navigateTo('/about')}
+          onClick={() => navigateTo("/about")}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}
