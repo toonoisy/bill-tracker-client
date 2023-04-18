@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
 import { TabBar } from "zarm";
@@ -6,8 +6,13 @@ import CustomIcon from "../CustomIcon";
 import s from "./style.module.less";
 
 const NavBar = ({ showNav }) => {
-  const [activeKey, setActiveKey] = useState(useLocation().pathname);
+  const location = useLocation();
+  const [activeKey, setActiveKey] = useState(location.pathname);
   const navigateTo = useNavigate();
+
+  useEffect(() => {
+    setActiveKey(location.pathname);
+  }, [location.pathname]);
 
   const changeTab = (path) => {
     setActiveKey(path);
