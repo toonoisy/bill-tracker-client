@@ -8,6 +8,7 @@ import User from "@/views/User";
 import Login from "@/views/Login";
 import Detail from "@/views/Detail";
 import UserInfo from "@/views/UserInfo";
+import Account from "@/views/Account";
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
   {
     path: "/userinfo",
     component: UserInfo,
+    authRedirect: "/login",
+  },
+  {
+    path: "/account",
+    component: Account,
     authRedirect: "/login",
   },
 ];

@@ -55,6 +55,7 @@ const User = () => {
         <Cell
           hasArrow
           title="重置密码"
+          onClick={() => navigateTo('/account')}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}
@@ -66,6 +67,7 @@ const User = () => {
         <Cell
           hasArrow
           title="关于 BillTracker"
+          onClick={() => navigateTo('/about')}
           icon={
             <img
               style={{ width: 20, verticalAlign: "-7px" }}
