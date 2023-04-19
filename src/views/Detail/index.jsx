@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Modal, Toast } from "zarm";
 import CustomIcon from "@/components/CustomIcon";
 import DetailHeader from "@/components/DetailHeader";
-import PopupAddBill from '@/components/PopupAddBill';
+import PopupAddBill from "@/components/PopupAddBill";
 import dayjs from "dayjs";
 import cx from "classnames";
-import qs from "query-string";
 import request from "@/utils/request";
 import { typeIconMap, PAY_TYPES } from "@/constants";
 import s from "./style.module.less";
@@ -15,9 +14,9 @@ import s from "./style.module.less";
 const Detail = () => {
   const { categoryList } = useSelector((store) => store.category);
   const editBillRef = useRef();
-  const location = useLocation();
   const navigateTo = useNavigate();
-  const { id } = qs.parse(location.search);
+  const [searchParams] = useSearchParams();
+  const id = searchParams.get("id");
   const [detail, setDetail] = useState({});
 
   useEffect(() => {

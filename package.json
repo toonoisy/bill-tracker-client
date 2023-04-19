@@ -16,7 +16,6 @@
     "dayjs": "^1.11.7",
     "lib-flexible": "^0.3.2",
     "prop-types": "^15.8.1",
-    "query-string": "^8.1.0",
     "rc-field-form": "^1.29.2",
     "react": "^17.0.2",
     "react-captcha-code": "^1.0.7",
