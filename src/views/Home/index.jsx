@@ -6,67 +6,52 @@ import CustomIcon from "@/components/CustomIcon";
 import PopupCategory from "@/components/PopupCategory";
 import PopupDate from "@/components/PopupDate";
 import PopupAddBill from "@/components/PopupAddBill";
-import dayjs from "dayjs";
 import s from "./style.module.less";
-import request from "@/utils/request";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  getBillList,
+  setPage,
+  setDate,
+  setTypeId,
+  setRefreshing,
+  setLoading,
+} from "@/store/billSlice";
 
 const Home = () => {
   const categoryRef = useRef();
   const dateRef = useRef();
   const addBillRef = useRef();
+  const dispatch = useDispatch();
+  const {
+    page,
+    date,
+    type_id,
+    totalPage,
+    totalExpense,
+    totalIncome,
+    billList,
+    refreshing,
+    loading,
+  } = useSelector((store) => store.bill);
   const [selectedCategory, setSelectedCategory] = useState({});
-  const [selectedDate, setSelectedDate] = useState(dayjs().format("YYYY-MM"));
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(0);
-  const [totalExpense, setTotalExpense] = useState(0);
-  const [totalIncome, setTotalIncome] = useState(0);
-  const [billList, setBillList] = useState([]);
-  const [refreshing, setRefreshing] = useState(REFRESH_STATE.normal); // 下拉刷新
-  const [loading, setLoading] = useState(LOAD_STATE.normal); // 上拉加载
 
   useEffect(() => {
-    getBillList();
-  }, [page, selectedDate, selectedCategory]);
-
-  const getBillList = async () => {
-    const params = {
-      date: selectedDate,
-      page,
-      page_size: 5,
-      type_id: selectedCategory?.id || "all",
-    };
-    const res = await request.get("/api/bill/list", { params });
-    const {
-      list = [],
-      totalPage = 0,
-      totalExpense = 0,
-      totalIncome = 0,
-    } = res?.data;
-    if (page == 1) {
-      setBillList(list);
-    } else {
-      setBillList(billList.concat(list));
-    }
-    setTotalPage(totalPage);
-    setTotalExpense(totalExpense);
-    setTotalIncome(totalIncome);
-    setLoading(LOAD_STATE.success);
-    setRefreshing(REFRESH_STATE.success);
-  };
+    dispatch(getBillList());
+  }, [page, date, type_id]);
 
   const refreshData = () => {
-    setRefreshing(REFRESH_STATE.loading);
+    dispatch(setRefreshing(REFRESH_STATE.loading));
     if (page != 1) {
-      setPage(1);
+      dispatch(setPage(1));
     } else {
-      getBillList();
+      dispatch(getBillList());
     }
   };
 
   const loadMoreData = () => {
     if (page < totalPage) {
-      setLoading(LOAD_STATE.loading);
-      setPage(page + 1);
+      dispatch(setLoading(LOAD_STATE.loading));
+      dispatch(setPage(page + 1));
     }
   };
 
@@ -83,15 +68,16 @@ const Home = () => {
   };
 
   const onCategorySelect = (val) => {
-    setRefreshing(REFRESH_STATE.loading);
-    setPage(1);
-    setSelectedCategory(val);
+    dispatch(setRefreshing(REFRESH_STATE.loading));
+    dispatch(setPage(1));
+    setSelectedCategory(val)
+    dispatch(setTypeId(val.id));
   };
 
   const onDateSelect = (val) => {
-    setRefreshing(REFRESH_STATE.loading);
-    setPage(1);
-    setSelectedDate(val);
+    dispatch(setRefreshing(REFRESH_STATE.loading));
+    dispatch(setPage(1));
+    dispatch(setDate(val));
   };
 
   return (
@@ -114,7 +100,7 @@ const Home = () => {
           </div>
           <div className={s.right}>
             <span className={s.time} onClick={togglePopupDate}>
-              {selectedDate}
+              {date}
               <Icon className={s.arrow} type="arrow-bottom" />
             </span>
           </div>
@@ -139,7 +125,9 @@ const Home = () => {
               <DayItem item={e} key={i} />
             ))}
           </Pull>
-        ) : '暂无数据'}
+        ) : (
+          "暂无数据"
+        )}
       </div>
       <PopupCategory ref={categoryRef} onSelect={onCategorySelect} />
       <PopupDate ref={dateRef} onSelect={onDateSelect} mode="month" />

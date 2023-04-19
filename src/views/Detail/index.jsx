@@ -1,35 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Modal, Toast } from "zarm";
 import CustomIcon from "@/components/CustomIcon";
 import DetailHeader from "@/components/DetailHeader";
 import PopupAddBill from "@/components/PopupAddBill";
-import dayjs from "dayjs";
 import cx from "classnames";
 import request from "@/utils/request";
 import { typeIconMap, PAY_TYPES } from "@/constants";
 import s from "./style.module.less";
+import { getBillDetail } from "@/store/billSlice";
 
 const Detail = () => {
+  const dispatch = useDispatch();
   const { categoryList } = useSelector((store) => store.category);
+  const { detail } = useSelector((store) => store.bill);
   const editBillRef = useRef();
   const navigateTo = useNavigate();
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const [detail, setDetail] = useState({});
 
   useEffect(() => {
-    getDetail();
+    dispatch(getBillDetail(id));
   }, [id]);
-
-  const getDetail = async () => {
-    const params = { id };
-    const { data } = await request.get("/api/bill/item", { params });
-    const t = data.mtime || data.ctime;
-    data.lastModifiedTime = dayjs(Number(t)).format("YYYY-MM-DD HH:mm");
-    setDetail(data);
-  };
 
   const delDetail = async () => {
     const data = { id };
@@ -106,7 +99,11 @@ const Detail = () => {
       ) : (
         "记录不存在"
       )}
-      <PopupAddBill ref={editBillRef} detail={detail} onReload={getDetail} />
+      <PopupAddBill
+        ref={editBillRef}
+        detail={detail}
+        onReload={() => dispatch(getBillDetail(id))}
+      />
     </div>
   );
 };
