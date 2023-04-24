@@ -1,16 +1,16 @@
-import React, { forwardRef, useState } from "react";
-import PropTypes from "prop-types";
-import { Popup, Icon } from "zarm";
-import cx from "classnames";
-import s from "./style.module.less";
-import { useSelector } from "react-redux";
+import React, { forwardRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Popup, Icon } from 'zarm';
+import cx from 'classnames';
+import s from './style.module.less';
+import { useSelector } from 'react-redux';
 
 const PopupCategory = forwardRef(({ onSelect }, ref) => {
   const { expenseTagList, incomeTagList } = useSelector(
     (store) => store.category
   );
   const [show, setShow] = useState(false);
-  const [activeId, setActiveId] = useState("all");
+  const [activeId, setActiveId] = useState('all');
 
   if (ref) {
     ref.current = {
@@ -48,8 +48,8 @@ const PopupCategory = forwardRef(({ onSelect }, ref) => {
         </div>
         <div className={s.content}>
           <div
-            onClick={() => selectItem({ id: "all" })}
-            className={cx({ [s.all]: true, [s.active]: activeId == "all" })}
+            onClick={() => selectItem({ id: 'all' })}
+            className={cx({ [s.all]: true, [s.active]: activeId == 'all' })}
           >
             全部类型
           </div>
@@ -82,6 +82,8 @@ const PopupCategory = forwardRef(({ onSelect }, ref) => {
     </Popup>
   );
 });
+
+PopupCategory.displayName = 'PopupCategory';
 
 PopupCategory.propTypes = {
   onSelect: PropTypes.func,

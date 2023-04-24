@@ -1,17 +1,17 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import request from "@/utils/request";
-import { PAY_TYPES } from "@/constants";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import request from '@/utils/request';
+import { PAY_TYPES } from '@/constants';
 
 export const getCategoryList = createAsyncThunk(
-  "category/getCategoryList",
+  'category/getCategoryList',
   async () => {
-    const res = await request.get("/api/type/list");
+    const res = await request.get('/api/type/list');
     return res.data;
   }
 );
 
 const categorySlice = createSlice({
-  name: "category",
+  name: 'category',
   initialState: {
     categoryList: [],
     expenseTagList: [],

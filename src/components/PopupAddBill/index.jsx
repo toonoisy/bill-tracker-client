@@ -1,14 +1,14 @@
-import React, { useState, useRef, forwardRef, useEffect } from "react";
-import PropTypes, { func } from "prop-types";
-import { Popup, Icon, Toast, Keyboard, Input } from "zarm";
-import cx from "classnames";
-import dayjs from "dayjs";
-import CustomIcon from "../CustomIcon";
-import PopupDate from "../PopupDate";
-import { useSelector } from "react-redux";
-import { PAY_TYPES, typeIconMap } from "@/constants";
-import s from "./style.module.less";
-import request from "@/utils/request";
+import React, { useState, useRef, forwardRef, useEffect } from 'react';
+import PropTypes, { func } from 'prop-types';
+import { Popup, Icon, Toast, Keyboard, Input } from 'zarm';
+import cx from 'classnames';
+import dayjs from 'dayjs';
+import CustomIcon from '../CustomIcon';
+import PopupDate from '../PopupDate';
+import { useSelector } from 'react-redux';
+import { PAY_TYPES, typeIconMap } from '@/constants';
+import s from './style.module.less';
+import request from '@/utils/request';
 
 const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   const { expenseTagList, incomeTagList } = useSelector(
@@ -18,10 +18,10 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   const [show, setShow] = useState(false);
   const [showRemarkInput, setShowRemarkInput] = useState(false);
   const [payType, setPayType] = useState(PAY_TYPES.EXPENSE);
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState('');
   const [date, setDate] = useState(dayjs().format('YYYY-MM-DD'));
   const [typeId, setTypeId] = useState(0);
-  const [remark, setRemark] = useState("");
+  const [remark, setRemark] = useState('');
 
   const detailId = detail?.id;
 
@@ -42,7 +42,7 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   }, [detail]);
 
   const billItem = async () => {
-    let method = "post";
+    let method = 'post';
     const params = {
       date,
       type_id: typeId,
@@ -52,9 +52,9 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
     };
     if (detailId) {
       params.id = detailId;
-      method = "put";
+      method = 'put';
     }
-    const res = await request[method]("/api/bill/item", params);
+    const res = await request[method]('/api/bill/item', params);
     setShow(false);
     Toast.show(res.msg);
     resetParams();
@@ -63,10 +63,10 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
 
   const resetParams = () => {
     setPayType(PAY_TYPES.EXPENSE);
-    setAmount("");
+    setAmount('');
     setDate(dayjs().format('YYYY-MM-DD'));
     setTypeId(expenseTagList[0]?.id);
-    setRemark("");
+    setRemark('');
   };
 
   const changePayType = (type) => {
@@ -83,15 +83,15 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
   };
 
   const onKeyboardChange = (val) => {
-    if (val === "ok") {
-      if (amount.endsWith(".")) {
+    if (val === 'ok') {
+      if (amount.endsWith('.')) {
         setAmount(amount.slice(0, -1));
       }
       billItem();
       return;
     }
-    if (val === "." && amount.includes(".")) return;
-    if (val === "delete") {
+    if (val === '.' && amount.includes('.')) return;
+    if (val === 'delete') {
       setAmount(amount.slice(0, -1));
       return;
     }
@@ -124,7 +124,10 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
       <div className={s.addWrap}>
         {/* 右上角关闭弹窗 */}
         <header className={s.header}>
-          <span className={s.close} onClick={() => setShow(false)}>
+          <span
+            className={s.close}
+            onClick={() => setShow(false)}
+          >
             <Icon type="wrong" />
           </span>
         </header>
@@ -150,9 +153,15 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
               收入
             </span>
           </div>
-          <div className={s.time} onClick={togglePopupDate}>
-            {dayjs(date).format("MM-DD")}
-            <Icon className={s.arrow} type="arrow-bottom" />
+          <div
+            className={s.time}
+            onClick={togglePopupDate}
+          >
+            {dayjs(date).format('MM-DD')}
+            <Icon
+              className={s.arrow}
+              type="arrow-bottom"
+            />
           </div>
         </div>
         <div className={s.money}>
@@ -206,7 +215,7 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
             />
           ) : (
             <span onClick={() => setShowRemarkInput(true)}>
-              {remark || "添加备注"}
+              {remark || '添加备注'}
             </span>
           )}
         </div>
@@ -214,11 +223,16 @@ const PopupAddBill = forwardRef(({ detail = {}, onReload }, ref) => {
           type="price"
           onKeyClick={(value) => onKeyboardChange(value)}
         />
-        <PopupDate ref={dateRef} onSelect={onDateSelect} />
+        <PopupDate
+          ref={dateRef}
+          onSelect={onDateSelect}
+        />
       </div>
     </Popup>
   );
 });
+
+PopupAddBill.displayName = 'PopupAddBill';
 
 PopupAddBill.propTypes = {
   detail: PropTypes.object,

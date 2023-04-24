@@ -1,7 +1,7 @@
-import React from "react";
-import { Button } from "zarm";
-import DetailHeader from "@/components/DetailHeader";
-import s from "./style.module.less";
+import React from 'react';
+import { Button } from 'zarm';
+import DetailHeader from '@/components/DetailHeader';
+import s from './style.module.less';
 
 const About = () => {
   return (

@@ -1,15 +1,15 @@
-import React, { useEffect, useRef } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Modal, Toast } from "zarm";
-import CustomIcon from "@/components/CustomIcon";
-import DetailHeader from "@/components/DetailHeader";
-import PopupAddBill from "@/components/PopupAddBill";
-import cx from "classnames";
-import request from "@/utils/request";
-import { typeIconMap, PAY_TYPES } from "@/constants";
-import s from "./style.module.less";
-import { getBillDetail } from "@/store/billSlice";
+import React, { useEffect, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal, Toast } from 'zarm';
+import CustomIcon from '@/components/CustomIcon';
+import DetailHeader from '@/components/DetailHeader';
+import PopupAddBill from '@/components/PopupAddBill';
+import cx from 'classnames';
+import request from '@/utils/request';
+import { typeIconMap, PAY_TYPES } from '@/constants';
+import s from './style.module.less';
+import { getBillDetail } from '@/store/billSlice';
 
 const Detail = () => {
   const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const Detail = () => {
   const editBillRef = useRef();
   const navigateTo = useNavigate();
   const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
+  const id = searchParams.get('id');
 
   useEffect(() => {
     dispatch(getBillDetail(id));
@@ -26,16 +26,16 @@ const Detail = () => {
 
   const delDetail = async () => {
     const data = { id };
-    const { msg } = await request.delete("api/bill/item", { data });
+    const { msg } = await request.delete('api/bill/item', { data });
     msg && Toast.show(msg);
     // `replace: true` won't work with `-1`
-    navigateTo("/", { replace: true });
+    navigateTo('/', { replace: true });
   };
 
   const handleDelete = () => {
     Modal.confirm({
-      title: "删除",
-      content: "确认删除账单？",
+      title: '删除',
+      content: '确认删除账单？',
       onOk: () => delDetail(),
     });
   };
@@ -77,12 +77,12 @@ const Detail = () => {
               <span>{detail.date}</span>
             </div>
             <div className={s.time}>
-              <span>{detail.mtime ? "修改时间" : "记录时间"}</span>
+              <span>{detail.mtime ? '修改时间' : '记录时间'}</span>
               <span>{detail.lastModifiedTime}</span>
             </div>
             <div className={s.remark}>
               <span>备注</span>
-              <span>{detail.remark || "-"}</span>
+              <span>{detail.remark || '-'}</span>
             </div>
           </div>
           <div className={s.operation}>
@@ -97,7 +97,7 @@ const Detail = () => {
           </div>
         </div>
       ) : (
-        "记录不存在"
+        '记录不存在'
       )}
       <PopupAddBill
         ref={editBillRef}

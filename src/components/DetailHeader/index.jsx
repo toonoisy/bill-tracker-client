@@ -1,8 +1,8 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import { NavBar, Icon } from "zarm";
-import PropTypes from "prop-types";
-import s from "./style.module.less";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { NavBar, Icon } from 'zarm';
+import PropTypes from 'prop-types';
+import s from './style.module.less';
 
 const DetailHeader = ({ title }) => {
   const navigateTo = useNavigate();

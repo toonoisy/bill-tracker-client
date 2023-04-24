@@ -1,13 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Icon, Progress } from "zarm";
-import cx from "classnames";
-import { typeIconMap } from "@/constants";
-import CustomIcon from "@/components/CustomIcon";
-import PopupDate from "@/components/PopupDate";
-import { getStatsList, setDate, setPayType } from "@/store/statsSlice";
-import { PAY_TYPES } from "@/constants";
-import s from "./style.module.less";
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { Icon, Progress } from 'zarm';
+import cx from 'classnames';
+import { typeIconMap } from '@/constants';
+import CustomIcon from '@/components/CustomIcon';
+import PopupDate from '@/components/PopupDate';
+import { getStatsList, setDate, setPayType } from '@/store/statsSlice';
+import { PAY_TYPES } from '@/constants';
+import s from './style.module.less';
 
 let pieChart = null;
 
@@ -38,11 +38,12 @@ const Stats = () => {
 
   const pieChartFn = (data) => {
     if (window.echarts) {
-      pieChart = echarts.init(document.getElementById("proportion"));
+      // eslint-disable-next-line no-undef
+      pieChart = echarts.init(document.getElementById('proportion'));
       pieChart.setOption({
         tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          trigger: 'item',
+          formatter: '{a} <br/>{b} : {c} ({d}%)',
         },
         legend: {
           data: data.map(
@@ -51,9 +52,9 @@ const Stats = () => {
         },
         series: [
           {
-            name: "支出",
-            type: "pie",
-            radius: "55%",
+            name: '支出',
+            type: 'pie',
+            radius: '55%',
             data: data.map((item) => {
               return {
                 value: item.total_amount,
@@ -64,7 +65,7 @@ const Stats = () => {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
               },
             },
           },
@@ -89,9 +90,15 @@ const Stats = () => {
   return (
     <div className={s.data}>
       <div className={s.total}>
-        <div className={s.time} onClick={togglePopupDate}>
+        <div
+          className={s.time}
+          onClick={togglePopupDate}
+        >
           <span>{date}</span>
-          <Icon className={s.date} type="date" />
+          <Icon
+            className={s.date}
+            type="date"
+          />
         </div>
         <div className={s.title}>共支出</div>
         <div className={s.expense}>¥{totalExpense}</div>
@@ -123,7 +130,10 @@ const Stats = () => {
         </div>
         <div className={s.content}>
           {targetDataList.map((e) => (
-            <div key={e.type_id} className={s.item}>
+            <div
+              key={e.type_id}
+              className={s.item}
+            >
               <div className={s.left}>
                 <div className={s.type}>
                   <span
@@ -165,7 +175,11 @@ const Stats = () => {
           <div id="proportion"></div>
         </div>
       </div>
-      <PopupDate ref={statsDateRef} mode="month" onSelect={selectMonth} />
+      <PopupDate
+        ref={statsDateRef}
+        mode="month"
+        onSelect={selectMonth}
+      />
     </div>
   );
 };

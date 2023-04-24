@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import request from "@/utils/request";
-import dayjs from "dayjs";
-import { REFRESH_STATE, LOAD_STATE } from "@/constants";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import request from '@/utils/request';
+import dayjs from 'dayjs';
+import { REFRESH_STATE, LOAD_STATE } from '@/constants';
 
 export const getBillList = createAsyncThunk(
-  "bill/getBillList",
+  'bill/getBillList',
   async (_, { getState }) => {
     const { date, page, page_size, type_id } = getState().bill;
     const params = {
@@ -13,18 +13,18 @@ export const getBillList = createAsyncThunk(
       page_size,
       type_id,
     };
-    const res = await request.get("/api/bill/list", { params });
+    const res = await request.get('/api/bill/list', { params });
     return res.data;
   }
 );
 
 export const getBillDetail = createAsyncThunk(
-  "bill/getBillDetail",
+  'bill/getBillDetail',
   async (id) => {
     const params = { id };
-    const { data } = await request.get("/api/bill/item", { params });
+    const { data } = await request.get('/api/bill/item', { params });
     const t = data.mtime || data.ctime;
-    data.lastModifiedTime = dayjs(Number(t)).format("YYYY-MM-DD HH:mm");
+    data.lastModifiedTime = dayjs(Number(t)).format('YYYY-MM-DD HH:mm');
     return data;
   }
 );
@@ -32,10 +32,10 @@ export const getBillDetail = createAsyncThunk(
 const initialState = {
   billList: [],
   detail: {},
-  date: dayjs().format("YYYY-MM"),
+  date: dayjs().format('YYYY-MM'),
   page: 1,
   page_size: 5,
-  type_id: "all",
+  type_id: 'all',
   totalPage: 0,
   totalExpense: 0,
   totalIncome: 0,
@@ -45,7 +45,7 @@ const initialState = {
 };
 
 const billSlice = createSlice({
-  name: "bill",
+  name: 'bill',
   initialState,
   reducers: {
     setPage(state, { payload }) {

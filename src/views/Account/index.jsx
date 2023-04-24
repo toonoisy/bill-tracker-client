@@ -1,15 +1,25 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { setIsAuth } from "@/store/userSlice";
-import { Cell, Input, Button, Toast } from "zarm";
-import Form, { Field } from "rc-field-form";
-import DetailHeader from "@/components/DetailHeader";
-import request from "@/utils/request";
-import s from "./style.module.less";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setIsAuth } from '@/store/userSlice';
+import { Cell, Input, Button, Toast } from 'zarm';
+import Form, { Field } from 'rc-field-form';
+import DetailHeader from '@/components/DetailHeader';
+import request from '@/utils/request';
+import s from './style.module.less';
 
 const RCFInput = (props) => {
   const { value, ...restProps } = props;
-  return <Input {...restProps} value={value} />;
+  return (
+    <Input
+      {...restProps}
+      value={value}
+    />
+  );
+};
+
+RCFInput.propTypes = {
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 const Account = () => {
@@ -28,15 +38,15 @@ const Account = () => {
   const onFormFinish = async (val) => {
     if (val) {
       if (val.newPW !== val.confirmNewPW) {
-        Toast.show("新密码两次输入不一致");
+        Toast.show('新密码两次输入不一致');
         return;
       }
       const { oldPW, newPW, confirmNewPW } = val;
       const params = { oldPW, newPW, confirmNewPW };
-      const res = await request.post("/api/user/reset_password", params);
+      const res = await request.post('/api/user/reset_password', params);
       Toast.show(res?.msg);
       setTimeout(() => {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
         dispatch(setIsAuth(false));
       }, 1000);
     }
@@ -46,27 +56,39 @@ const Account = () => {
     <>
       <DetailHeader title="重置密码" />
       <div className={s.account}>
-        <Form className={s.form} form={form} onFinish={onFormFinish}>
+        <Form
+          className={s.form}
+          form={form}
+          onFinish={onFormFinish}
+        >
           <Cell title="原密码">
             <Field
               name="oldPW"
-              rules={[{ required: true, message: "请输入原密码" }]}
+              rules={[{ required: true, message: '请输入原密码' }]}
             >
-              <RCFInput clearable type="text" placeholder="请输入原密码" />
+              <RCFInput
+                clearable
+                type="text"
+                placeholder="请输入原密码"
+              />
             </Field>
           </Cell>
           <Cell title="新密码">
             <Field
               name="newPW"
-              rules={[{ required: true, message: "请输入新密码" }]}
+              rules={[{ required: true, message: '请输入新密码' }]}
             >
-              <RCFInput clearable type="text" placeholder="请输入新密码" />
+              <RCFInput
+                clearable
+                type="text"
+                placeholder="请输入新密码"
+              />
             </Field>
           </Cell>
           <Cell title="确认密码">
             <Field
               name="confirmNewPW"
-              rules={[{ required: true, message: "请再此输入新密码确认" }]}
+              rules={[{ required: true, message: '请再此输入新密码确认' }]}
             >
               <RCFInput
                 clearable
@@ -76,7 +98,12 @@ const Account = () => {
             </Field>
           </Cell>
         </Form>
-        <Button className={s.btn} block theme="primary" onClick={preSubmit}>
+        <Button
+          className={s.btn}
+          block
+          theme="primary"
+          onClick={preSubmit}
+        >
           提交
         </Button>
       </div>

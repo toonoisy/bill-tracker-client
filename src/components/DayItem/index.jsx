@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { Cell } from "zarm";
-import { useNavigate } from "react-router-dom";
-import CustomIcon from "../CustomIcon";
-import { typeIconMap } from "@/constants";
-import s from "./style.module.less";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { Cell } from 'zarm';
+import { useNavigate } from 'react-router-dom';
+import CustomIcon from '../CustomIcon';
+import { typeIconMap } from '@/constants';
+import s from './style.module.less';
+import { useSelector } from 'react-redux';
 
 const PAY_TYPES = {
   EXPENSE: 1,
@@ -25,8 +25,8 @@ const DayItem = ({ item }) => {
         return acc;
       }, 0);
     };
-    setExpense(calc("EXPENSE"));
-    setIncome(calc("INCOME"));
+    setExpense(calc('EXPENSE'));
+    setIncome(calc('INCOME'));
   }, [item.bills]);
 
   const navigateTo = useNavigate();
@@ -40,18 +40,25 @@ const DayItem = ({ item }) => {
         <div className={s.date}>{item.date}</div>
         <div className={s.money}>
           <span>
-            <img src="//s.yezgea02.com/1615953405599/zhi%402x.png" alt="支" />
+            <img
+              src="//s.yezgea02.com/1615953405599/zhi%402x.png"
+              alt="支"
+            />
             <span>¥{expense.toFixed(2)}</span>
           </span>
           <span>
-            <img src="//s.yezgea02.com/1615953405599/shou%402x.png" alt="收" />
+            <img
+              src="//s.yezgea02.com/1615953405599/shou%402x.png"
+              alt="收"
+            />
             <span>¥{income.toFixed(2)}</span>
           </span>
         </div>
       </div>
       {/* `Cannot assign to read only property '0' of object '[object Array]'` */}
       {item.bills
-        ?.slice().sort((a, b) => b.ctime - a.ctime)
+        ?.slice()
+        .sort((a, b) => b.ctime - a.ctime)
         .map((e) => (
           <Cell
             className={s.bill}
@@ -64,20 +71,20 @@ const DayItem = ({ item }) => {
                   type={e.type_id ? typeIconMap[e.type_id].icon : 1}
                 />
                 <span>
-                  {categoryList?.find(c => c.id === e.type_id)?.name}
+                  {categoryList?.find((c) => c.id === e.type_id)?.name}
                 </span>
               </>
             }
             description={
               <span
                 style={{
-                  color: e.pay_type == PAY_TYPES.INCOME ? "red" : "#39be77",
+                  color: e.pay_type == PAY_TYPES.INCOME ? 'red' : '#39be77',
                 }}
-              >{`${e.pay_type == PAY_TYPES.INCOME ? "+" : "-"}${
-                Number(e.amount).toFixed(2)
-              }`}</span>
+              >{`${e.pay_type == PAY_TYPES.INCOME ? '+' : '-'}${Number(
+                e.amount
+              ).toFixed(2)}`}</span>
             }
-            help={<div>{e.remark || ""}</div>}
+            help={<div>{e.remark || ''}</div>}
           />
         ))}
     </div>

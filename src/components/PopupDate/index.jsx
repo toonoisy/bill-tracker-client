@@ -1,9 +1,9 @@
-import React, { useState, forwardRef } from "react";
-import PropTypes from "prop-types";
-import { Popup, DatePicker } from "zarm";
-import dayjs from "dayjs";
+import React, { useState, forwardRef } from 'react';
+import PropTypes from 'prop-types';
+import { Popup, DatePicker } from 'zarm';
+import dayjs from 'dayjs';
 
-const PopupDate = forwardRef(({ onSelect, mode = "date" }, ref) => {
+const PopupDate = forwardRef(({ onSelect, mode = 'date' }, ref) => {
   const [show, setShow] = useState(false);
   const [isChanged, setIsChanged] = useState(false);
   const [selectedVal, setSelectedVal] = useState(new Date());
@@ -12,10 +12,10 @@ const PopupDate = forwardRef(({ onSelect, mode = "date" }, ref) => {
     setShow(false);
     if (!isChanged) return;
     setSelectedVal(val);
-    if (mode === "month") {
-      onSelect(dayjs(val).format("YYYY-MM"));
-    } else if (mode === "date") {
-      onSelect(dayjs(val).format("YYYY-MM-DD"));
+    if (mode === 'month') {
+      onSelect(dayjs(val).format('YYYY-MM'));
+    } else if (mode === 'date') {
+      onSelect(dayjs(val).format('YYYY-MM-DD'));
     }
   };
 
@@ -51,6 +51,8 @@ const PopupDate = forwardRef(({ onSelect, mode = "date" }, ref) => {
     </Popup>
   );
 });
+
+PopupDate.displayName = 'PopupDate';
 
 PopupDate.propTypes = {
   onSelect: PropTypes.func,

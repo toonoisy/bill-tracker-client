@@ -23,51 +23,51 @@ export const LOAD_STATE = {
 
 export const typeIconMap = {
   1: {
-    icon: "canyin",
+    icon: 'canyin',
   },
   2: {
-    icon: "fushi",
+    icon: 'fushi',
   },
   3: {
-    icon: "jiaotong",
+    icon: 'jiaotong',
   },
   4: {
-    icon: "riyong",
+    icon: 'riyong',
   },
   5: {
-    icon: "gouwu",
+    icon: 'gouwu',
   },
   6: {
-    icon: "xuexi",
+    icon: 'xuexi',
   },
   7: {
-    icon: "yiliao",
+    icon: 'yiliao',
   },
   8: {
-    icon: "lvxing",
+    icon: 'lvxing',
   },
   9: {
-    icon: "renqing",
+    icon: 'renqing',
   },
   10: {
-    icon: "qita",
+    icon: 'qita',
   },
   11: {
-    icon: "gongzi",
+    icon: 'gongzi',
   },
   12: {
-    icon: "jiangjin",
+    icon: 'jiangjin',
   },
   13: {
-    icon: "zhuanzhang",
+    icon: 'zhuanzhang',
   },
   14: {
-    icon: "licai",
+    icon: 'licai',
   },
   15: {
-    icon: "tuikuang",
+    icon: 'tuikuang',
   },
   16: {
-    icon: "qita",
+    icon: 'qita',
   },
 };

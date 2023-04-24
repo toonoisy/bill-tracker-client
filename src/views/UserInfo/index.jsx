@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { Button, FilePicker, Input, Toast } from "zarm";
-import DetailHeader from "@/components/DetailHeader";
-import request from "@/utils/request";
-import { getUserInfo, setSignature, uploadAvatar } from "@/store/userSlice";
-import s from "./style.module.less";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button, FilePicker, Input, Toast } from 'zarm';
+import DetailHeader from '@/components/DetailHeader';
+import request from '@/utils/request';
+import { getUserInfo, setSignature, uploadAvatar } from '@/store/userSlice';
+import s from './style.module.less';
 
 const UserInfo = () => {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ const UserInfo = () => {
 
   const onFileChange = async (file) => {
     if (file && file.file.size > 200 * 1024) {
-      Toast.show("上传头像不得超过 200 KB");
+      Toast.show('上传头像不得超过 200 KB');
       return;
     }
     dispatch(uploadAvatar(file));
@@ -27,7 +27,7 @@ const UserInfo = () => {
 
   const saveUserInfo = async () => {
     const params = { avatar, signature };
-    const res = await request.post("/api/user/edit_userinfo", params);
+    const res = await request.post('/api/user/edit_userinfo', params);
     Toast.show(res?.msg);
     navigateTo(-1);
   };
@@ -40,7 +40,11 @@ const UserInfo = () => {
         <div className={s.item}>
           <div className={s.title}>头像</div>
           <div className={s.avatar}>
-            <img className={s.avatarUrl} src={avatar} alt="" />
+            <img
+              className={s.avatarUrl}
+              src={avatar}
+              alt=""
+            />
             <div className={s.desc}>
               <span>支持 jpg、png、jpeg 格式大小 200KB 以内的图片</span>
               <FilePicker
@@ -48,7 +52,11 @@ const UserInfo = () => {
                 onChange={onFileChange}
                 accept="image/*"
               >
-                <Button className={s.upload} theme="primary" size="xs">
+                <Button
+                  className={s.upload}
+                  theme="primary"
+                  size="xs"
+                >
                   点击上传
                 </Button>
               </FilePicker>

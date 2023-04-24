@@ -1,32 +1,35 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import request from "@/utils/request";
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import request from '@/utils/request';
 
-export const getUserInfo = createAsyncThunk("user/getUserInfo", async () => {
-  const res = await request.get("/api/user/get_userinfo");
+export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
+  const res = await request.get('/api/user/get_userinfo');
   return res?.data;
 });
 
-export const uploadAvatar = createAsyncThunk("user/uploadAvatar", async (file) => {
-  console.log(file);
-  const formData = new FormData();
-  formData.append("file", file.file);
-  const headers = {
-    "Content-Type": "multipart/form-data",
-  };
-  const res = await request.post("/api/upload", formData, { headers });
-  return res?.data;
-});
+export const uploadAvatar = createAsyncThunk(
+  'user/uploadAvatar',
+  async (file) => {
+    console.log(file);
+    const formData = new FormData();
+    formData.append('file', file.file);
+    const headers = {
+      'Content-Type': 'multipart/form-data',
+    };
+    const res = await request.post('/api/upload', formData, { headers });
+    return res?.data;
+  }
+);
 
 const initialState = {
   isAuth: Boolean(localStorage.getItem('token')),
-  userId: "",
-  username: "",
-  signature: "",
-  avatar: "",
+  userId: '',
+  username: '',
+  signature: '',
+  avatar: '',
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     setIsAuth(state, { payload }) {

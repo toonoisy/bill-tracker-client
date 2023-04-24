@@ -1,55 +1,57 @@
-import { Route, Routes } from "react-router-dom";
-import GuardedRoute from "./GuardedRoute";
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import GuardedRoute from './GuardedRoute';
 
-import Home from "@/views/Home";
-import About from "@/views/About";
-import Stats from "@/views/Stats";
-import User from "@/views/User";
-import Login from "@/views/Login";
-import Detail from "@/views/Detail";
-import UserInfo from "@/views/UserInfo";
-import Account from "@/views/Account";
+import Home from '@/views/Home';
+import About from '@/views/About';
+import Stats from '@/views/Stats';
+import User from '@/views/User';
+import Login from '@/views/Login';
+import Detail from '@/views/Detail';
+import UserInfo from '@/views/UserInfo';
+import Account from '@/views/Account';
 
 const routes = [
   {
-    path: "/",
+    path: '/',
     component: Home,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/about",
+    path: '/about',
     component: About,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/stats",
+    path: '/stats',
     component: Stats,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/user",
+    path: '/user',
     component: User,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/login",
+    path: '/login',
     component: Login,
-    authRedirect: "/",
+    authRedirect: '/',
   },
   {
-    path: "/detail",
+    path: '/detail',
     component: Detail,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/userinfo",
+    path: '/userinfo',
     component: UserInfo,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
   {
-    path: "/account",
+    path: '/account',
     component: Account,
-    authRedirect: "/login",
+    authRedirect: '/login',
   },
 ];
 
@@ -62,17 +64,24 @@ const AppRoutes = ({ isAuthenticated }) => {
           element={
             <GuardedRoute
               isRouteAccessible={
-                route.path === "/login" ? !isAuthenticated : isAuthenticated
+                route.path === '/login' ? !isAuthenticated : isAuthenticated
               }
               redirectRoute={route.authRedirect}
             />
           }
         >
-          <Route path={route.path} element={<route.component />} />
+          <Route
+            path={route.path}
+            element={<route.component />}
+          />
         </Route>
       ))}
     </Routes>
   );
+};
+
+AppRoutes.propTypes = {
+  isAuthenticated: PropTypes.bool,
 };
 
 export default AppRoutes;

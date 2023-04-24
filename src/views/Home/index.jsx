@@ -1,13 +1,13 @@
-import React, { useEffect, useState, useRef } from "react";
-import { Icon, Pull } from "zarm";
-import { REFRESH_STATE, LOAD_STATE } from "@/constants";
-import DayItem from "@/components/DayItem";
-import CustomIcon from "@/components/CustomIcon";
-import PopupCategory from "@/components/PopupCategory";
-import PopupDate from "@/components/PopupDate";
-import PopupAddBill from "@/components/PopupAddBill";
-import s from "./style.module.less";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useEffect, useState, useRef } from 'react';
+import { Icon, Pull } from 'zarm';
+import { REFRESH_STATE, LOAD_STATE } from '@/constants';
+import DayItem from '@/components/DayItem';
+import CustomIcon from '@/components/CustomIcon';
+import PopupCategory from '@/components/PopupCategory';
+import PopupDate from '@/components/PopupDate';
+import PopupAddBill from '@/components/PopupAddBill';
+import s from './style.module.less';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getBillList,
   setPage,
@@ -15,7 +15,7 @@ import {
   setTypeId,
   setRefreshing,
   setLoading,
-} from "@/store/billSlice";
+} from '@/store/billSlice';
 
 const Home = () => {
   const categoryRef = useRef();
@@ -70,7 +70,7 @@ const Home = () => {
   const onCategorySelect = (val) => {
     dispatch(setRefreshing(REFRESH_STATE.loading));
     dispatch(setPage(1));
-    setSelectedCategory(val)
+    setSelectedCategory(val);
     dispatch(setTypeId(val.id));
   };
 
@@ -92,16 +92,28 @@ const Home = () => {
           </span>
         </div>
         <div className={s.typeWrap}>
-          <div className={s.left} onClick={togglePopupCategory}>
+          <div
+            className={s.left}
+            onClick={togglePopupCategory}
+          >
             <span className={s.title}>
-              {selectedCategory?.name || "全部类型"}
-              <Icon className={s.arrow} type="arrow-bottom" />
+              {selectedCategory?.name || '全部类型'}
+              <Icon
+                className={s.arrow}
+                type="arrow-bottom"
+              />
             </span>
           </div>
           <div className={s.right}>
-            <span className={s.time} onClick={togglePopupDate}>
+            <span
+              className={s.time}
+              onClick={togglePopupDate}
+            >
               {date}
-              <Icon className={s.arrow} type="arrow-bottom" />
+              <Icon
+                className={s.arrow}
+                type="arrow-bottom"
+              />
             </span>
           </div>
         </div>
@@ -122,18 +134,37 @@ const Home = () => {
             }}
           >
             {billList.map((e, i) => (
-              <DayItem item={e} key={i} />
+              <DayItem
+                item={e}
+                key={i}
+              />
             ))}
           </Pull>
         ) : (
-          "暂无数据"
+          '暂无数据'
         )}
       </div>
-      <PopupCategory ref={categoryRef} onSelect={onCategorySelect} />
-      <PopupDate ref={dateRef} onSelect={onDateSelect} mode="month" />
-      <PopupAddBill ref={addBillRef} onReload={refreshData} />
-      <div className={s.add} onClick={togglePopupAddBill}>
-        <CustomIcon type="tianjia" size="md" />
+      <PopupCategory
+        ref={categoryRef}
+        onSelect={onCategorySelect}
+      />
+      <PopupDate
+        ref={dateRef}
+        onSelect={onDateSelect}
+        mode="month"
+      />
+      <PopupAddBill
+        ref={addBillRef}
+        onReload={refreshData}
+      />
+      <div
+        className={s.add}
+        onClick={togglePopupAddBill}
+      >
+        <CustomIcon
+          type="tianjia"
+          size="md"
+        />
       </div>
     </div>
   );

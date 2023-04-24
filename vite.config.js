@@ -1,13 +1,13 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { createStyleImportPlugin } from "vite-plugin-style-import";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { createStyleImportPlugin } from 'vite-plugin-style-import';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
+      '@': path.resolve(__dirname, 'src'),
     },
   },
   plugins: [
@@ -16,7 +16,7 @@ export default defineConfig({
     createStyleImportPlugin({
       libs: [
         {
-          libraryName: "zarm",
+          libraryName: 'zarm',
           esModule: true,
           resolveStyle: (name) => {
             return `zarm/es/${name}/style/css`;
@@ -27,7 +27,7 @@ export default defineConfig({
   ],
   css: {
     modules: {
-      localsConvention: "dashesOnly",
+      localsConvention: 'dashesOnly',
     },
     preprocessorOptions: {
       less: {
@@ -38,13 +38,13 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "/api": {
-        target: "http://127.0.0.1:7001",
+      '/api': {
+        target: 'http://127.0.0.1:7001',
         changeOrigin: true,
         // rewrite: path => path.replace(/^\/api/, ''),
       },
-      "/public/upload": {
-        target: "http://127.0.0.1:7001",
+      '/public/upload': {
+        target: 'http://127.0.0.1:7001',
         changeOrigin: true,
       },
     },
