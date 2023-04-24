@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setIsInit } from '@/store/billSlice';
 import PropTypes from 'prop-types';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { TabBar } from 'zarm';
@@ -9,6 +11,7 @@ const NavBar = ({ showNav }) => {
   const location = useLocation();
   const [activeKey, setActiveKey] = useState(location.pathname);
   const navigateTo = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setActiveKey(location.pathname);
@@ -17,6 +20,7 @@ const NavBar = ({ showNav }) => {
   const changeTab = (path) => {
     setActiveKey(path);
     navigateTo(path);
+    dispatch(setIsInit(true));
   };
 
   return (

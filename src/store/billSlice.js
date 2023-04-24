@@ -63,6 +63,9 @@ const billSlice = createSlice({
     setLoading(state, { payload }) {
       state.loading = payload;
     },
+    setIsInit(state, { payload }) {
+      state.isInit = payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -97,7 +100,13 @@ const billSlice = createSlice({
   },
 });
 
-export const { setPage, setDate, setTypeId, setRefreshing, setLoading } =
-  billSlice.actions;
+export const {
+  setPage,
+  setDate,
+  setTypeId,
+  setRefreshing,
+  setLoading,
+  setIsInit,
+} = billSlice.actions;
 
 export default billSlice.reducer;
