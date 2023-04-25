@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { setIsAuth } from '@/store/userSlice';
 import { Cell, Input, Button, Checkbox, Toast } from 'zarm';
 import CustomIcon from '@/components/CustomIcon';
-import Captcha from 'react-captcha-code';
+import Captcha from '@/components/CaptchaCode';
 import cx from 'classnames';
 import s from './style.module.less';
 import request from '@/utils/request';
@@ -56,6 +56,7 @@ const Login = () => {
       })
       .then((res) => {
         Toast.show(res?.msg);
+        setType('login');
       });
   };
 
