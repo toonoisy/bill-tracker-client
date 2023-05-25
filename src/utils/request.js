@@ -7,7 +7,6 @@ const instance = axios.create({
   timeout: 30 * 1000,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
-    Authorization: `${localStorage.getItem('token')}`,
   },
 });
 instance.defaults.headers.post['Content-Type'] = 'application/json';
@@ -31,6 +30,7 @@ instance.interceptors.request.use(
       // Collects requests
       sources.push({ umet: config.url + '&' + config.method, cancel: c });
     });
+    config.headers.Authorization = localStorage.getItem('token');
     return config;
   },
   (err) => {
@@ -50,6 +50,7 @@ instance.interceptors.response.use(
   (err) => {
     const { response, message = '请求出错' } = err;
     if (response.status == 401) {
+      localStorage.removeItem('token');
       window.location.href = '/login';
     }
     Toast.show(response.data?.msg || message);
