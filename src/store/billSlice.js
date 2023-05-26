@@ -84,11 +84,13 @@ const billSlice = createSlice({
         state.totalPage = totalPage;
         state.totalExpense = totalExpense;
         state.totalIncome = totalIncome;
-        if (!state.isInit) {
-          state.loading = LOAD_STATE.success;
-          state.refreshing = REFRESH_STATE.success;
-        }
-        state.isInit = false;
+        /* 
+        a weird bug with zarm <Pull />, 
+        the success message remains visible the first time it loads non-empty data successfully,
+        better to set the load state to normal
+        */
+        state.loading = LOAD_STATE.normal;
+        state.refreshing = REFRESH_STATE.normal;
       })
       .addCase(getBillList.rejected, (state) => {
         state.loading = LOAD_STATE.failure;
