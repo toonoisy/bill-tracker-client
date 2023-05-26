@@ -24,9 +24,9 @@ const Stats = () => {
     dispatch(getStatsList());
     return () => {
       // 每次组件卸载的时候，需要释放图表实例。clear 只是将其清空不会释放。
-      pieChart.dispose();
+      pieChart?.dispose();
     };
-  }, [date]);
+  }, [date, payType]);
 
   useEffect(() => {
     setTargetDataList(statsList.filter((e) => e.pay_type === payType));
