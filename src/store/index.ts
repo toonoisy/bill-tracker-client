@@ -4,7 +4,7 @@ import billSlice from './billSlice';
 import statsSlice from './statsSlice';
 import userSlice from './userSlice';
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     category: categorySlice,
     bill: billSlice,
@@ -12,3 +12,8 @@ export default configureStore({
     user: userSlice,
   },
 });
+
+export default store;
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

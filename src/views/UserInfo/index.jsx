@@ -22,7 +22,7 @@ const UserInfo = () => {
       Toast.show('上传头像不得超过 200 KB');
       return;
     }
-    dispatch(uploadAvatar(file));
+    dispatch(uploadAvatar(file.file));
   };
 
   const saveUserInfo = async () => {

@@ -47,7 +47,7 @@ const Detail = () => {
   return (
     <div className={s.detail}>
       <DetailHeader title="账单详情" />
-      {detail.id ? (
+      {detail?.id ? (
         <div className={s.card}>
           <div className={s.type}>
             {/* 通过 pay_type 属性，判断是收入或指出，给出不同的颜色*/}
