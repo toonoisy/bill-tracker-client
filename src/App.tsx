@@ -5,7 +5,7 @@ import NavBar from './components/NavBar';
 import { ConfigProvider } from 'zarm';
 import zhCN from 'zarm/lib/config-provider/locale/zh_CN';
 const primaryColor = '#007fff';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setIsAuth } from '@/store/userSlice';
 import { getCategoryList } from '@/store/categorySlice';
 
@@ -14,8 +14,8 @@ function App() {
   const { pathname } = location;
   const navPaths = ['/', '/stats', '/user'];
   const [showNav, setShowNav] = useState(false);
-  const { isAuth } = useSelector((store) => store.user);
-  const dispatch = useDispatch();
+  const { isAuth } = useAppSelector((store) => store.user);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     setShowNav(navPaths.includes(pathname));
   }, [pathname]);

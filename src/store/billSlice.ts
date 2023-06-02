@@ -10,7 +10,7 @@ interface BillState {
   date: string;
   page: number;
   page_size: number;
-  type_id: string;
+  type_id: string | number;
   totalPage: number;
   totalExpense: number;
   totalIncome: number;
@@ -37,7 +37,7 @@ export const getBillList = createAsyncThunk<
 
 export const getBillDetail = createAsyncThunk(
   'bill/getBillDetail',
-  async (id) => {
+  async (id: number | string) => {
     const params = { id };
     const { data } = await request.get('/api/bill/item', { params });
     const t = data.mtime || data.ctime;
@@ -71,7 +71,7 @@ const billSlice = createSlice({
     setDate(state, action: PayloadAction<string>) {
       state.date = action.payload;
     },
-    setTypeId(state, action: PayloadAction<string>) {
+    setTypeId(state, action: PayloadAction<string | number>) {
       state.type_id = action.payload;
     },
     setRefreshing(state, action: PayloadAction<number>) {

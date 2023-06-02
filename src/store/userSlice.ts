@@ -3,11 +3,11 @@ import request from '../utils/request';
 import { UserInfo } from '../types';
 
 interface UserState {
-  isAuth: boolean,
-  userId: number | null,
-  username: string,
-  signature: string,
-  avatar: string,  
+  isAuth: boolean;
+  userId: number | null;
+  username: string;
+  signature: string;
+  avatar: string;
 }
 
 export const getUserInfo = createAsyncThunk('user/getUserInfo', async () => {
@@ -49,16 +49,22 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getUserInfo.fulfilled, (state, action: PayloadAction<UserInfo>) => {
-        const { id, username, signature, avatar } = action.payload;
-        state.userId = id;
-        state.username = username;
-        state.signature = signature;
-        state.avatar = avatar;
-      })
-      .addCase(uploadAvatar.fulfilled, (state, action: PayloadAction<string>) => {
-        state.avatar = action.payload;
-      });
+      .addCase(
+        getUserInfo.fulfilled,
+        (state, action: PayloadAction<UserInfo>) => {
+          const { id, username, signature, avatar } = action.payload;
+          state.userId = id;
+          state.username = username;
+          state.signature = signature;
+          state.avatar = avatar;
+        }
+      )
+      .addCase(
+        uploadAvatar.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          state.avatar = action.payload;
+        }
+      );
   },
 });
 

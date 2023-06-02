@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Icon, Progress } from 'zarm';
 import cx from 'classnames';
 import { typeIconMap } from '@/constants';
@@ -8,17 +8,24 @@ import PopupDate from '@/components/PopupDate';
 import { getStatsList, setDate, setPayType } from '@/store/statsSlice';
 import { PAY_TYPES } from '@/constants';
 import s from './style.module.less';
+import { ECharts, EChartOption } from 'echarts';
+import { StatsItem } from '@/types';
 
-let pieChart = null;
+interface CurrentHandlers extends HTMLElement {
+  show?: () => void;
+  close?: () => void;
+}
+
+let pieChart: ECharts | null = null;
 
 const Stats = () => {
-  const dispatch = useDispatch();
-  const statsDateRef = useRef();
-  const { categoryList } = useSelector((store) => store.category);
-  const { statsList, date, payType, totalExpense, totalIncome } = useSelector(
-    (store) => store.stats
-  );
-  const [targetDataList, setTargetDataList] = useState([]);
+  const dispatch = useAppDispatch();
+  const statsDateRef = useRef<HTMLElement>(null);
+  const { categoryList } = useAppSelector((store) => store.category);
+  const { statsList, date, payType, totalExpense, totalIncome } =
+    useAppSelector((store) => store.stats);
+  const [targetDataList, setTargetDataList] = useState<StatsItem[]>([]);
+  const chartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dispatch(getStatsList());
@@ -36,10 +43,9 @@ const Stats = () => {
     targetDataList.length && pieChartFn(targetDataList);
   }, [targetDataList]);
 
-  const pieChartFn = (data) => {
+  const pieChartFn = (data: StatsItem[]) => {
     if (window.echarts) {
-      // eslint-disable-next-line no-undef
-      pieChart = echarts.init(document.getElementById('proportion'));
+      pieChart = echarts?.init(chartRef?.current as HTMLDivElement);
       pieChart.setOption({
         tooltip: {
           trigger: 'item',
@@ -70,20 +76,21 @@ const Stats = () => {
             },
           },
         ],
-      });
+      } as EChartOption);
     }
   };
 
   // 月份弹窗开关
   const togglePopupDate = () => {
-    statsDateRef.current?.show();
+    const current = statsDateRef.current as CurrentHandlers;
+    current?.show && current?.show();
   };
 
-  const selectMonth = (val) => {
+  const selectMonth = (val: string) => {
     dispatch(setDate(val));
   };
 
-  const changePayType = (val) => {
+  const changePayType = (val: number) => {
     dispatch(setPayType(val));
   };
 
@@ -141,7 +148,11 @@ const Stats = () => {
                       payType === PAY_TYPES.EXPENSE ? s.expense : s.income
                     )}
                   >
-                    <CustomIcon type={typeIconMap[e.type_id]?.icon || 1} />
+                    <CustomIcon
+                      type={
+                        typeIconMap[e.type_id as keyof typeof typeIconMap]?.icon
+                      }
+                    />
                   </span>
                   <span className={s.name}>
                     {categoryList.find((c) => c.id === e.type_id)?.name}
@@ -156,14 +167,16 @@ const Stats = () => {
                   <Progress
                     shape="line"
                     percent={Number(
-                      (e.total_amount /
-                        Number(
-                          payType == PAY_TYPES.EXPENSE
-                            ? totalExpense
-                            : totalIncome
-                        )) *
+                      (
+                        (Number(e.total_amount) /
+                          Number(
+                            payType == PAY_TYPES.EXPENSE
+                              ? totalExpense
+                              : totalIncome
+                          )) *
                         100
-                    ).toFixed(2)}
+                      ).toFixed(2)
+                    )}
                     theme="primary"
                   />
                 </div>
@@ -172,7 +185,10 @@ const Stats = () => {
           ))}
         </div>
         <div className={s.proportion}>
-          <div id="proportion"></div>
+          <div
+            id="proportion"
+            ref={chartRef}
+          ></div>
         </div>
       </div>
       <PopupDate

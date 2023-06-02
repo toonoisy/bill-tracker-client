@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, ChangeEvent } from 'react';
 import { useDispatch } from 'react-redux';
 import { setIsAuth } from '@/store/userSlice';
 import { Cell, Input, Button, Checkbox, Toast } from 'zarm';
@@ -17,7 +17,7 @@ const Login = () => {
   const [checked, setChecked] = useState(false);
   const [type, setType] = useState('login');
 
-  const onCaptchaChange = useCallback((captcha) => {
+  const onCaptchaChange = useCallback((captcha: string) => {
     setCaptcha(captcha);
     console.log(captcha);
   }, []);
@@ -113,7 +113,7 @@ const Login = () => {
             clearable
             type="text"
             placeholder="请输入账号"
-            onChange={(val) => setUsername(val)}
+            onChange={(val?: string) => setUsername(val as string)}
           />
         </Cell>
         <Cell
@@ -128,7 +128,7 @@ const Login = () => {
             clearable
             type="password"
             placeholder="请输入密码"
-            onChange={(val) => setPassword(val)}
+            onChange={(val?: string) => setPassword(val as string)}
           />
         </Cell>
         {type === 'signup' && (
@@ -144,7 +144,7 @@ const Login = () => {
               clearable
               type="text"
               placeholder="请输入验证码"
-              onChange={(val) => setCode(val)}
+              onChange={(val?: string) => setCode(val as string)}
             />
             <Captcha
               charNum={4}
@@ -156,7 +156,11 @@ const Login = () => {
       <div className={s.operation}>
         {type === 'signup' && (
           <div className={s.agree}>
-            <Checkbox onChange={(val) => setChecked(val)} />
+            <Checkbox
+              onChange={(ev?: ChangeEvent<HTMLInputElement>) =>
+                setChecked(ev?.target.checked as boolean)
+              }
+            />
             <label className="text-light">
               阅读并同意<a>《BillTracker条款》</a>
             </label>

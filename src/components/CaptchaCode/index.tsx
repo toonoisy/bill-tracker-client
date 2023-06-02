@@ -4,16 +4,20 @@
 - 点击刷新
 */
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
-const CaptchaCode = ({ charNum = 4, onChange }) => {
+interface CaptchaCodeProps {
+  charNum: number;
+  onChange: (code: string) => void;
+}
+
+const CaptchaCode = ({ charNum = 4, onChange }: CaptchaCodeProps) => {
   const range = 'abcdefghijklmnopqrstuvwxyz0123456789';
   const w = 100;
   const h = 40;
   const strokeLen = charNum; // 干扰线数量
   const dotLen = charNum * 10; // 干扰点数量
 
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState<string>('');
 
   useEffect(() => {
     init();
@@ -24,8 +28,8 @@ const CaptchaCode = ({ charNum = 4, onChange }) => {
   }, [code]);
 
   const init = () => {
-    const canvas = document.getElementById('captcha-code');
-    const ctx = canvas.getContext('2d');
+    const canvas = document.getElementById('captcha-code') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     // 图形背景颜色
     ctx.fillStyle = randomColor(180, 230);
     // 绘制被填充的矩形
@@ -35,18 +39,18 @@ const CaptchaCode = ({ charNum = 4, onChange }) => {
     randomDot(ctx);
   };
 
-  const randomNum = (min, max) => {
+  const randomNum = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  const randomColor = (min, max) => {
+  const randomColor = (min: number, max: number) => {
     const r = randomNum(min, max);
     const g = randomNum(min, max);
     const b = randomNum(min, max);
     return `rgb(${r}, ${g}, ${b})`;
   };
 
-  const randomText = (ctx) => {
+  const randomText = (ctx: CanvasRenderingContext2D) => {
     let temp = '';
     for (let i = 0; i < charNum; i++) {
       // 随机字母或数字
@@ -75,7 +79,7 @@ const CaptchaCode = ({ charNum = 4, onChange }) => {
     setCode(temp);
   };
 
-  const randomStroke = (ctx) => {
+  const randomStroke = (ctx: CanvasRenderingContext2D) => {
     for (let i = 0; i < strokeLen; i++) {
       ctx.beginPath();
       ctx.moveTo(randomNum(0, w), randomNum(0, h));
@@ -87,7 +91,7 @@ const CaptchaCode = ({ charNum = 4, onChange }) => {
     }
   };
 
-  const randomDot = (ctx) => {
+  const randomDot = (ctx: CanvasRenderingContext2D) => {
     let temp = dotLen;
     while (temp) {
       ctx.beginPath();
@@ -110,11 +114,6 @@ const CaptchaCode = ({ charNum = 4, onChange }) => {
       onClick={() => init()}
     ></canvas>
   );
-};
-
-CaptchaCode.propTypes = {
-  charNum: PropTypes.number,
-  onChange: PropTypes.func,
 };
 
 export default CaptchaCode;

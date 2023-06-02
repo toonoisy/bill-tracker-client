@@ -1,23 +1,25 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '@/hooks';
 import { Button, FilePicker, Input, Toast } from 'zarm';
 import DetailHeader from '@/components/DetailHeader';
 import request from '@/utils/request';
 import { getUserInfo, setSignature, uploadAvatar } from '@/store/userSlice';
 import s from './style.module.less';
+import { IFileDetail } from 'zarm/lib/file-picker';
 
 const UserInfo = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigateTo = useNavigate();
-  const { avatar, signature, userId } = useSelector((store) => store.user);
+  const { avatar, signature, userId } = useAppSelector((store) => store.user);
 
   useEffect(() => {
     if (userId) return;
     dispatch(getUserInfo());
   }, []);
 
-  const onFileChange = async (file) => {
+  const onFileChange = async (val?: object | object[]) => {
+    const file = val as IFileDetail;
     if (file && file.file.size > 200 * 1024) {
       Toast.show('上传头像不得超过 200 KB');
       return;
@@ -71,7 +73,9 @@ const UserInfo = () => {
               type="text"
               value={signature}
               placeholder="请输入个性签名"
-              onChange={(value) => dispatch(setSignature(value))}
+              onChange={(value?: string) =>
+                dispatch(setSignature(value as string))
+              }
             />
           </div>
         </div>

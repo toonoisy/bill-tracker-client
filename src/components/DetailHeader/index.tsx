@@ -1,14 +1,17 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks';
 import { setIsInit } from '@/store/billSlice';
 import { NavBar, Icon } from 'zarm';
-import PropTypes from 'prop-types';
 import s from './style.module.less';
 
-const DetailHeader = ({ title }) => {
+interface DetailHeaderProps {
+  title: string;
+}
+
+const DetailHeader = ({ title }: DetailHeaderProps) => {
   const navigateTo = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const back = () => {
     navigateTo(-1);
@@ -32,10 +35,6 @@ const DetailHeader = ({ title }) => {
       </div>
     </div>
   );
-};
-
-DetailHeader.propTypes = {
-  title: PropTypes.string,
 };
 
 export default DetailHeader;

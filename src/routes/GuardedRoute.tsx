@@ -1,8 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Navigate, Outlet } from 'react-router-dom';
 
-const GuardedRoute = ({ isRouteAccessible = false, redirectRoute = '/' }) =>
+interface GuardedRouteProps {
+  isRouteAccessible: boolean;
+  redirectRoute: string;
+}
+
+const GuardedRoute = ({
+  isRouteAccessible = false,
+  redirectRoute = '/',
+}: GuardedRouteProps) =>
   isRouteAccessible ? (
     <Outlet />
   ) : (
@@ -11,10 +18,5 @@ const GuardedRoute = ({ isRouteAccessible = false, redirectRoute = '/' }) =>
       replace
     />
   );
-
-GuardedRoute.propTypes = {
-  isRouteAccessible: PropTypes.bool,
-  redirectRoute: PropTypes.string,
-};
 
 export default GuardedRoute;

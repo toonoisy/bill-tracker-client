@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { Modal, Toast } from 'zarm';
 import CustomIcon from '@/components/CustomIcon';
 import DetailHeader from '@/components/DetailHeader';
@@ -10,15 +10,21 @@ import request from '@/utils/request';
 import { typeIconMap, PAY_TYPES } from '@/constants';
 import s from './style.module.less';
 import { getBillDetail } from '@/store/billSlice';
+import { BillDetail } from '@/types';
+
+interface CurrentHandlers {
+  show?: () => void;
+  close?: () => void;
+}
 
 const Detail = () => {
-  const dispatch = useDispatch();
-  const { categoryList } = useSelector((store) => store.category);
-  const { detail } = useSelector((store) => store.bill);
-  const editBillRef = useRef();
+  const dispatch = useAppDispatch();
+  const { categoryList } = useAppSelector((store) => store.category);
+  const { detail } = useAppSelector((store) => store.bill);
+  const editBillRef = useRef<HTMLElement | null>(null);
   const navigateTo = useNavigate();
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
+  const id = searchParams.get('id') as string;
 
   useEffect(() => {
     dispatch(getBillDetail(id));
@@ -41,7 +47,8 @@ const Detail = () => {
   };
 
   const handleEdit = () => {
-    editBillRef.current?.show();
+    const current = editBillRef.current as CurrentHandlers;
+    current?.show && current.show();
   };
 
   return (
@@ -59,7 +66,12 @@ const Detail = () => {
             >
               <CustomIcon
                 className={s.iconfont}
-                type={detail.type_id ? typeIconMap[detail.type_id].icon : 1}
+                type={
+                  detail.type_id
+                    ? typeIconMap[detail.type_id as keyof typeof typeIconMap]
+                        .icon
+                    : 'canyin'
+                }
               />
             </span>
             <span>
@@ -101,7 +113,7 @@ const Detail = () => {
       )}
       <PopupAddBill
         ref={editBillRef}
-        detail={detail}
+        detail={detail as BillDetail}
         onReload={() => dispatch(getBillDetail(id))}
       />
     </div>

@@ -7,7 +7,7 @@ import PopupCategory from '@/components/PopupCategory';
 import PopupDate from '@/components/PopupDate';
 import PopupAddBill from '@/components/PopupAddBill';
 import s from './style.module.less';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   getBillList,
   setPage,
@@ -17,11 +17,24 @@ import {
   setLoading,
 } from '@/store/billSlice';
 
+interface CurrentHandlers extends HTMLElement {
+  show?: () => void;
+  close?: () => void;
+}
+
+interface CategoryItem {
+  id: number | string;
+  pay_type?: number;
+  name?: string;
+  en_name?: string;
+  user_id?: number;
+}
+
 const Home = () => {
-  const categoryRef = useRef();
-  const dateRef = useRef();
-  const addBillRef = useRef();
-  const dispatch = useDispatch();
+  const categoryRef = useRef<HTMLElement>(null);
+  const dateRef = useRef<HTMLElement>(null);
+  const addBillRef = useRef<HTMLElement>(null);
+  const dispatch = useAppDispatch();
   const {
     page,
     date,
@@ -32,8 +45,8 @@ const Home = () => {
     billList,
     refreshing,
     loading,
-  } = useSelector((store) => store.bill);
-  const [selectedCategory, setSelectedCategory] = useState({});
+  } = useAppSelector((store) => store.bill);
+  const [selectedCategory, setSelectedCategory] = useState<CategoryItem>();
 
   useEffect(() => {
     dispatch(getBillList());
@@ -56,25 +69,28 @@ const Home = () => {
   };
 
   const togglePopupCategory = () => {
-    categoryRef.current?.show();
+    const current = categoryRef.current as CurrentHandlers;
+    current?.show && current.show();
   };
 
   const togglePopupDate = () => {
-    dateRef.current?.show();
+    const current = dateRef.current as CurrentHandlers;
+    current?.show && current.show();
   };
 
   const togglePopupAddBill = () => {
-    addBillRef.current?.show();
+    const current = addBillRef.current as CurrentHandlers;
+    current?.show && current.show();
   };
 
-  const onCategorySelect = (val) => {
+  const onCategorySelect = (val: CategoryItem) => {
     dispatch(setRefreshing(REFRESH_STATE.loading));
     dispatch(setPage(1));
     setSelectedCategory(val);
     dispatch(setTypeId(val.id));
   };
 
-  const onDateSelect = (val) => {
+  const onDateSelect = (val: string) => {
     dispatch(setRefreshing(REFRESH_STATE.loading));
     dispatch(setPage(1));
     dispatch(setDate(val));

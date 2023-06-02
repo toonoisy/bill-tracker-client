@@ -12,6 +12,7 @@ export interface BillListItem {
 
 export interface BillDetail extends BillListItem {
   user_id: number;
+  lastModifiedTime?: string;
 }
 
 // res.data.list[0].bills

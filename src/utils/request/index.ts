@@ -33,7 +33,7 @@ instance.interceptors.request.use(
   (config) => {
     removeSource(config);
     config.cancelToken = new axios.CancelToken((c) => {
-      sources.push({ umet: config.url+ '&' + config.method, cancel: c });
+      sources.push({ umet: config.url + '&' + config.method, cancel: c });
     });
     if (config.headers) {
       config.headers.Authorization = localStorage.getItem('token') || '';
@@ -46,7 +46,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(
-  (res: AxiosResponse<any>) => {    
+  (res: AxiosResponse<any>) => {
     if (typeof res.data !== 'object') {
       Toast.show('Server error');
       return Promise.reject(res);

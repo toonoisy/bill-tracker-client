@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import GuardedRoute from './GuardedRoute';
 
 import Home from '@/views/Home';
@@ -11,6 +10,10 @@ import Login from '@/views/Login';
 import Detail from '@/views/Detail';
 import UserInfo from '@/views/UserInfo';
 import Account from '@/views/Account';
+
+interface AppRoutesProps {
+  isAuthenticated: boolean;
+}
 
 const routes = [
   {
@@ -55,7 +58,7 @@ const routes = [
   },
 ];
 
-const AppRoutes = ({ isAuthenticated }) => {
+const AppRoutes = ({ isAuthenticated }: AppRoutesProps) => {
   return (
     <Routes>
       {routes.map((route) => (
@@ -78,10 +81,6 @@ const AppRoutes = ({ isAuthenticated }) => {
       ))}
     </Routes>
   );
-};
-
-AppRoutes.propTypes = {
-  isAuthenticated: PropTypes.bool,
 };
 
 export default AppRoutes;

@@ -1,14 +1,27 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '@/hooks';
 import { setIsAuth } from '@/store/userSlice';
 import { Cell, Input, Button, Toast } from 'zarm';
 import Form, { Field } from 'rc-field-form';
 import DetailHeader from '@/components/DetailHeader';
 import request from '@/utils/request';
 import s from './style.module.less';
+import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 
-const RCFInput = (props) => {
+interface FormProps {
+  oldPW: string;
+  newPW: string;
+  confirmNewPW: string;
+}
+
+interface RCFInputprops {
+  clearable: boolean;
+  type: string;
+  placeholder: string;
+  value?: string;
+}
+
+const RCFInput = (props: RCFInputprops) => {
   const { value, ...restProps } = props;
   return (
     <Input
@@ -18,24 +31,22 @@ const RCFInput = (props) => {
   );
 };
 
-RCFInput.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-};
-
 const Account = () => {
   const [form] = Form.useForm();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const preSubmit = async () => {
     try {
       const val = await form.validateFields();
       onFormFinish(val);
-    } catch (err) {
-      Toast.show(err.errorFields[0].errors[0]);
+    } catch (error: unknown) {
+      // https://stackoverflow.com/questions/69021040/why-catch-clause-variable-type-annotation-must-be-any
+      const err = error as ValidateErrorEntity;
+      Toast.show(err?.errorFields[0].errors[0]);
     }
   };
 
-  const onFormFinish = async (val) => {
+  const onFormFinish = async (val: FormProps) => {
     if (val) {
       if (val.newPW !== val.confirmNewPW) {
         Toast.show('新密码两次输入不一致');

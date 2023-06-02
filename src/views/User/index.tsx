@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '@/hooks';
 import { Cell, Button } from 'zarm';
 import { getUserInfo, setIsAuth } from '@/store/userSlice';
 import s from './style.module.less';
 
 const User = () => {
   const navigateTo = useNavigate();
-  const dispatch = useDispatch();
-  const { username, signature, avatar, userId } = useSelector(
+  const dispatch = useAppDispatch();
+  const { username, signature, avatar, userId } = useAppSelector(
     (store) => store.user
   );
   useEffect(() => {
